@@ -1,0 +1,62 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: super-todo/package-lock.json
+
+      - name: Install & build super-todo
+        working-directory: super-todo
+        run: |
+          npm ci
+          npm run build
+
+      - name: Assemble _site
+        run: |
+          mkdir -p _site
+          cp -R super-todo/dist _site/super-todo
+          cp -R mvp-todo _site/mvp-todo
+          cat > _site/index.html <<'EOF'
+          <!doctype html>
+          <meta charset="UTF-8">
+          <title>「なんとなく作る」から抜け出す</title>
+          <meta http-equiv="refresh" content="0; url=./super-todo/">
+          <p><a href="./super-todo/">super-todo</a> | <a href="./mvp-todo/">mvp-todo</a></p>
+          EOF
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

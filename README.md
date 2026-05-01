@@ -19,8 +19,3 @@
 | ------------------------------------------------------------- | ---------------------------- | -------------------------------------------------------------- |
 | **機能から考えた版**<br>思いついた機能を順に実装していった版  | [super-todo/](./super-todo/) | https://s12bt.github.io/giiku-mini-conference-2026/super-todo/ |
 | **課題から考えた版**<br>解決したい課題から MVP に絞り込んだ版 | [mvp-todo/](./mvp-todo/)     | https://s12bt.github.io/giiku-mini-conference-2026/mvp-todo/   |
-
----
-
-- Repojitory https://github.com/s12bt/giiku-mini-conference-2026
-- おにたま@s12bt https://s12bt.net/

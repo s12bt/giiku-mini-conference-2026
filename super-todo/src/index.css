@@ -1,0 +1,90 @@
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color-scheme: light dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+body {
+  background: #0a0a0f;
+  color: #f3f4f6;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.bg-mesh {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(139, 92, 246, 0.25), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 20%, rgba(59, 130, 246, 0.22), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 70% 90%, rgba(236, 72, 153, 0.18), transparent 60%),
+    radial-gradient(ellipse 50% 50% at 10% 80%, rgba(16, 185, 129, 0.15), transparent 60%);
+  filter: blur(40px);
+  animation: meshMove 25s ease-in-out infinite alternate;
+}
+
+@keyframes meshMove {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-3%, 2%) scale(1.05); }
+}
+
+:root[data-theme='light'] body {
+  background: #f5f5f7;
+  color: #0f172a;
+}
+
+:root[data-theme='light'] .bg-mesh {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(139, 92, 246, 0.18), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 20%, rgba(59, 130, 246, 0.15), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 70% 90%, rgba(236, 72, 153, 0.12), transparent 60%);
+  opacity: 0.6;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) body {
+    background: #f5f5f7;
+    color: #0f172a;
+  }
+  :root:not([data-theme='dark']) .bg-mesh {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(139, 92, 246, 0.18), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 85% 20%, rgba(59, 130, 246, 0.15), transparent 60%),
+      radial-gradient(ellipse 70% 60% at 70% 90%, rgba(236, 72, 153, 0.12), transparent 60%);
+    opacity: 0.6;
+  }
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.4);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
+}
