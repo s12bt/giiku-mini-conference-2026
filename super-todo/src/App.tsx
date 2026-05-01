@@ -12,6 +12,7 @@ import type {
   Todo,
   ViewMode,
 } from './types'
+import { generateDemoData } from './demoData'
 import './App.css'
 
 const STORAGE_KEY = 'todo-app:v3'
@@ -28,29 +29,30 @@ type PersistState = {
 function loadState(): PersistState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return { todos: [], history: {} }
-    const parsed = JSON.parse(raw) as Partial<PersistState>
-    const todos = (parsed.todos ?? []).map((t) => ({
-      ...t,
-      pinned: t.pinned ?? false,
-      focusSeconds: t.focusSeconds ?? 0,
-    })) as Todo[]
-    return { todos, history: parsed.history ?? {} }
-  } catch {
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<PersistState>
+      const todos = (parsed.todos ?? []).map((t) => ({
+        ...t,
+        pinned: t.pinned ?? false,
+        focusSeconds: t.focusSeconds ?? 0,
+      })) as Todo[]
+      return { todos, history: parsed.history ?? {} }
+    }
     // Attempt migration from v2
-    try {
-      const raw2 = localStorage.getItem('todo-app:v2')
-      if (raw2) {
-        const parsed = JSON.parse(raw2)
-        const todos = (parsed.todos ?? []).map((t: Todo) => ({
-          ...t,
-          pinned: t.pinned ?? false,
-          focusSeconds: t.focusSeconds ?? 0,
-        }))
-        return { todos, history: {} }
-      }
-    } catch {}
-    return { todos: [], history: {} }
+    const raw2 = localStorage.getItem('todo-app:v2')
+    if (raw2) {
+      const parsed = JSON.parse(raw2)
+      const todos = (parsed.todos ?? []).map((t: Todo) => ({
+        ...t,
+        pinned: t.pinned ?? false,
+        focusSeconds: t.focusSeconds ?? 0,
+      }))
+      return { todos, history: {} }
+    }
+    // First-time visitor: seed with demo data
+    return generateDemoData()
+  } catch {
+    return generateDemoData()
   }
 }
 
@@ -286,13 +288,13 @@ function App() {
     mutate(todos.filter((t) => t.id !== id))
   }
 
-  const toggleAll = () => {
-    const allDone = todos.length > 0 && todos.every((t) => t.done)
+  const completeAll = () => {
+    const now = new Date().toISOString()
     mutate(
       todos.map((t) => ({
         ...t,
-        done: !allDone,
-        completedAt: !allDone ? new Date().toISOString() : null,
+        done: true,
+        completedAt: t.completedAt ?? now,
       })),
     )
   }
@@ -564,7 +566,7 @@ function App() {
         <div className="rail-spacer" />
 
         <div className="rail-io">
-          <button onClick={undo} disabled={undoStack.length === 0} title="元に戻す">↶</button>
+          <button onClick={undo} disabled={undoStack.length === 0} title="元に戻す">↺</button>
           <select
             value={theme}
             onChange={(e) => setTheme(e.target.value as Theme)}
@@ -574,8 +576,8 @@ function App() {
             <option value="light">☀</option>
             <option value="dark">🌙</option>
           </select>
-          <button onClick={exportJson} title="エクスポート">⬇</button>
-          <button onClick={() => fileInputRef.current?.click()} title="インポート">⬆</button>
+          <button onClick={exportJson} title="JSON で保存">⬇</button>
+          <button onClick={() => fileInputRef.current?.click()} title="JSON から読み込み">⬆</button>
           <input
             ref={fileInputRef}
             type="file"
@@ -644,7 +646,7 @@ function App() {
 
             {todos.length > 0 && (
               <footer className="bulk">
-                <button onClick={toggleAll}>全て切替</button>
+                <button onClick={completeAll}>全て完了</button>
                 <button onClick={clearCompleted}>完了済み削除</button>
                 <button onClick={clearAll} className="danger">全削除</button>
               </footer>
