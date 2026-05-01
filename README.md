@@ -7,7 +7,7 @@
 ## このリポジトリの中身
 
 - 📄 スライド本編 PDF
-- 📄 ユーザーストーリーマッピング補足 PDF
+- 📄 課題分解ワーク補足 PDF
 - 📱 [super-todo](./super-todo/) — 機能から考えた版 ToDo アプリ
 - 📱 [mvp-todo](./mvp-todo/) — 課題から考えた版 ToDo アプリ
 
@@ -15,7 +15,12 @@
 
 セミナーで紹介した 2 つの ToDo アプリ。同じ「ToDo アプリ」でも、考え方の違いで使い心地がどう変わるかを体感できる。
 
-| アプリ | 一言 | コード | デモ |
-|---|---|---|---|
-| 機能から考えた版 | 思いついた機能を順に実装していった版 | [super-todo/](./super-todo/) | https://s12bt.github.io/giiku-mini-conference-2026/super-todo/ |
-| 課題から考えた版 | 解決したい課題から MVP に絞り込んだ版 | [mvp-todo/](./mvp-todo/) | https://s12bt.github.io/giiku-mini-conference-2026/mvp-todo/ |
+| アプリ                                                        | コード                       | デモページ                                                     |
+| ------------------------------------------------------------- | ---------------------------- | -------------------------------------------------------------- |
+| **機能から考えた版**<br>思いついた機能を順に実装していった版  | [super-todo/](./super-todo/) | https://s12bt.github.io/giiku-mini-conference-2026/super-todo/ |
+| **課題から考えた版**<br>解決したい課題から MVP に絞り込んだ版 | [mvp-todo/](./mvp-todo/)     | https://s12bt.github.io/giiku-mini-conference-2026/mvp-todo/   |
+
+---
+
+- Repojitory https://github.com/s12bt/giiku-mini-conference-2026
+- おにたま@s12bt https://s12bt.net/
